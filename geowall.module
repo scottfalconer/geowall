@@ -1,0 +1,13 @@
+<?php
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function geowall_help($route_name, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.geowall':
+      return t('GeoWall restricts access to selected content based on the Cloudflare CF-IPCountry header. Configure settings on the <a href=":url">Geowall settings page</a>.', [':url' => Url::fromRoute('geowall.settings')->toString()]);
+  }
+}

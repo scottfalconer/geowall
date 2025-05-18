@@ -1,0 +1,11 @@
+allowed_countries:
+  - 'US'
+restricted_content_types: {  }
+restricted_paths: {  }
+excluded_paths:
+  - '/admin/*'
+  - '/user/*'
+  - '/system/ajax'
+redirect_path: '/coming-soon'
+default_action_if_no_header: 'allow'
+enable_geowall: true

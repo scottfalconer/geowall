@@ -1,0 +1,5 @@
+name: GeoWall
+description: 'Restrict access to content by visitor country.'
+core_version_requirement: ^10 || ^11
+package: Custom
+type: module

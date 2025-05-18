@@ -1,0 +1,3 @@
+administer geowall settings:
+  title: 'Administer GeoWall settings'
+  description: 'Configure geo access restrictions.'

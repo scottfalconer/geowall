@@ -1,0 +1,33 @@
+geowall.settings:
+  type: config_object
+  label: 'GeoWall settings'
+  mapping:
+    allowed_countries:
+      type: sequence
+      label: 'Allowed countries'
+      sequence:
+        type: string
+    restricted_content_types:
+      type: sequence
+      label: 'Restricted content types'
+      sequence:
+        type: string
+    restricted_paths:
+      type: sequence
+      label: 'Restricted paths'
+      sequence:
+        type: string
+    excluded_paths:
+      type: sequence
+      label: 'Excluded paths'
+      sequence:
+        type: string
+    redirect_path:
+      type: string
+      label: 'Redirect path'
+    default_action_if_no_header:
+      type: string
+      label: 'Default action'
+    enable_geowall:
+      type: boolean
+      label: 'Enable geowall'

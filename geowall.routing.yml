@@ -1,0 +1,7 @@
+geowall.settings:
+  path: '/admin/config/system/geowall'
+  defaults:
+    _form: '\Drupal\geowall\Form\GeoWallSettingsForm'
+    _title: 'GeoWall settings'
+  requirements:
+    _permission: 'administer geowall settings'

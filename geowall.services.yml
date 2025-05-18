@@ -1,0 +1,22 @@
+services:
+  geowall.restriction_checker:
+    class: Drupal\geowall\GeoWallRestrictionChecker
+    arguments: ['@config.factory', '@path.matcher', '@current_route_match', '@request_stack']
+
+  geowall.geo_access_cache_context:
+    class: Drupal\geowall\Cache\Context\GeoAccessCacheContext
+    arguments: ['@geowall.restriction_checker', '@request_stack']
+    tags:
+      - { name: cache.context }
+
+  geowall.request_subscriber:
+    class: Drupal\geowall\EventSubscriber\GeoWallRequestSubscriber
+    arguments: ['@geowall.restriction_checker', '@config.factory']
+    tags:
+      - { name: event_subscriber }
+
+  geowall.response_subscriber:
+    class: Drupal\geowall\EventSubscriber\GeoWallResponseSubscriber
+    arguments: ['@geowall.restriction_checker', '@config.factory']
+    tags:
+      - { name: event_subscriber }
