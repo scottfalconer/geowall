@@ -20,18 +20,12 @@ final class GeoWallSettingsForm extends ConfigFormBase {
    *
    * @var \Drupal\Core\Path\PathValidatorInterface
    */
-  /**
-   * Path validator service.
-   */
   protected PathValidatorInterface $pathValidator;
 
   /**
    * Path matcher service.
    *
    * @var \Drupal\Core\Path\PathMatcherInterface
-   */
-  /**
-   * Path matcher service.
    */
   protected PathMatcherInterface $pathMatcher;
 
