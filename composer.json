@@ -1,0 +1,9 @@
+{
+  "name": "drupal/geowall",
+  "description": "Restrict access to selected content by visitor country.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "drupal/core": "^10 || ^11"
+  }
+}
