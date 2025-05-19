@@ -46,7 +46,7 @@ final class GeoWallResponseSubscriber implements EventSubscriberInterface {
       if ($this->checker->isPathPotentiallyRestricted($request)) {
         $response->headers->set('Vary', 'CF-IPCountry', FALSE);
         $metadata = $response->getCacheableMetadata();
-        $metadata->addCacheContexts(['geowall.geo_access']);
+        $metadata->addCacheContexts(['geowall_geo_access']);
       }
     }
   }
