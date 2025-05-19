@@ -3,7 +3,7 @@ services:
     class: Drupal\geowall\GeoWallRestrictionChecker
     arguments: ['@config.factory', '@path.matcher', '@current_route_match', '@request_stack']
 
-  geowall.geo_access_cache_context:
+  cache_context.geowall.geo_access:
     class: Drupal\geowall\Cache\Context\GeoAccessCacheContext
     arguments: ['@geowall.restriction_checker', '@request_stack']
     tags:
