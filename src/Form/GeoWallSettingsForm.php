@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Path\PathMatcherInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -32,8 +33,8 @@ final class GeoWallSettingsForm extends ConfigFormBase {
   /**
    * Constructs the settings form.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, PathValidatorInterface $path_validator, PathMatcherInterface $path_matcher) {
-    parent::__construct($config_factory);
+  public function __construct(ConfigFactoryInterface $config_factory, MessengerInterface $messenger, PathValidatorInterface $path_validator, PathMatcherInterface $path_matcher) {
+    parent::__construct($config_factory, $messenger);
     $this->pathValidator = $path_validator;
     $this->pathMatcher = $path_matcher;
   }
@@ -44,6 +45,7 @@ final class GeoWallSettingsForm extends ConfigFormBase {
   public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('config.factory'),
+      $container->get('messenger'),
       $container->get('path.validator'),
       $container->get('path.matcher')
     );
