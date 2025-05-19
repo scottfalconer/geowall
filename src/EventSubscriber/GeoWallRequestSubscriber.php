@@ -12,21 +12,17 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 /**
  * Redirects disallowed visitors before controller execution.
  */
-class GeoWallRequestSubscriber implements EventSubscriberInterface {
+final class GeoWallRequestSubscriber implements EventSubscriberInterface {
 
   /**
-   * The restriction checker service.
-   *
-   * @var \Drupal\geowall\GeoWallRestrictionChecker
+   * Restriction checker service.
    */
-  protected $checker;
+  protected GeoWallRestrictionChecker $checker;
 
   /**
-   * The config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   * Config factory.
    */
-  protected $configFactory;
+  protected ConfigFactoryInterface $configFactory;
 
   /**
    * Constructs the subscriber.
@@ -37,7 +33,7 @@ class GeoWallRequestSubscriber implements EventSubscriberInterface {
   }
 
   /** @inheritdoc */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     $events[KernelEvents::REQUEST][] = ['onRequest', 30];
     return $events;
   }
@@ -45,7 +41,7 @@ class GeoWallRequestSubscriber implements EventSubscriberInterface {
   /**
    * Checks if request should be redirected.
    */
-  public function onRequest(RequestEvent $event) {
+  public function onRequest(RequestEvent $event): void {
     $config = $this->configFactory->get('geowall.settings');
     if (!$config->get('enable_geowall')) {
       return;

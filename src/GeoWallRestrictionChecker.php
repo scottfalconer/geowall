@@ -3,6 +3,7 @@
 namespace Drupal\geowall;
 
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
@@ -12,12 +13,29 @@ use Drupal\node\NodeInterface;
 /**
  * Contains logic to check if a request should be restricted.
  */
-class GeoWallRestrictionChecker {
+final class GeoWallRestrictionChecker {
 
-  protected $config;
-  protected $pathMatcher;
-  protected $currentRouteMatch;
-  protected $requestStack;
+  /**
+   * GeoWall configuration object.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected Config $config;
+
+  /**
+   * Path matcher service.
+   */
+  protected PathMatcherInterface $pathMatcher;
+
+  /**
+   * Current route match service.
+   */
+  protected CurrentRouteMatch $currentRouteMatch;
+
+  /**
+   * Request stack service.
+   */
+  protected RequestStack $requestStack;
 
   public function __construct(ConfigFactoryInterface $config_factory, PathMatcherInterface $path_matcher, CurrentRouteMatch $current_route_match, RequestStack $request_stack) {
     $this->config = $config_factory->get('geowall.settings');
@@ -29,14 +47,14 @@ class GeoWallRestrictionChecker {
   /**
    * Gets visitor country code from the request.
    */
-  public function getUserCountry(Request $request) {
+  public function getUserCountry(Request $request): ?string {
     return $request->headers->get('CF-IPCountry');
   }
 
   /**
    * Determines if current request is restricted.
    */
-  public function isRestricted(Request $request) {
+  public function isRestricted(Request $request): bool {
     if (!$this->isPathPotentiallyRestricted($request)) {
       return FALSE;
     }
@@ -57,7 +75,7 @@ class GeoWallRestrictionChecker {
    * @return bool
    *   TRUE if the path is potentially restricted.
    */
-  public function isPathPotentiallyRestricted(Request $request) {
+  public function isPathPotentiallyRestricted(Request $request): bool {
     $path = '/' . trim($request->getPathInfo(), '/');
     foreach ((array) $this->config->get('excluded_paths') as $pattern) {
       if ($this->pathMatcher->matchPath($path, $pattern)) {
