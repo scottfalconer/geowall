@@ -31,7 +31,7 @@ GeoWall assumes the `CF-IPCountry` value is reliable and does not verify that re
 
 ## Caching
 
-GeoWall adds a custom cache context (`geowall.geo_access`) so that Drupal's page cache and CDNs can vary on whether a visitor is allowed or disallowed. Make sure upstream caches respect the `Vary` header to avoid serving restricted content to the wrong audience.
+GeoWall adds a custom cache context (`geowall_geo_access`) so that Drupal's page cache and CDNs can vary on whether a visitor is allowed or disallowed. Make sure upstream caches respect the `Vary` header to avoid serving restricted content to the wrong audience.
 
 ## Benefits
 
