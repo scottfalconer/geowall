@@ -12,22 +12,29 @@ use Drupal\Core\Cache\CacheableResponseInterface;
 /**
  * Adds cache context and Vary header on responses.
  */
-class GeoWallResponseSubscriber implements EventSubscriberInterface {
+final class GeoWallResponseSubscriber implements EventSubscriberInterface {
 
-  protected $checker;
-  protected $configFactory;
+  /**
+   * Restriction checker service.
+   */
+  protected GeoWallRestrictionChecker $checker;
+
+  /**
+   * Config factory.
+   */
+  protected ConfigFactoryInterface $configFactory;
 
   public function __construct(GeoWallRestrictionChecker $checker, ConfigFactoryInterface $config_factory) {
     $this->checker = $checker;
     $this->configFactory = $config_factory;
   }
 
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     $events[KernelEvents::RESPONSE][] = ['onResponse'];
     return $events;
   }
 
-  public function onResponse(ResponseEvent $event) {
+  public function onResponse(ResponseEvent $event): void {
     $config = $this->configFactory->get('geowall.settings');
     if (!$config->get('enable_geowall')) {
       return;

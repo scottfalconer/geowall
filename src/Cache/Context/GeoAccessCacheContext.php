@@ -10,10 +10,17 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Cache context for geo access.
  */
-class GeoAccessCacheContext implements CacheContextInterface {
+final class GeoAccessCacheContext implements CacheContextInterface {
 
-  protected $checker;
-  protected $requestStack;
+  /**
+   * Restriction checker service.
+   */
+  protected GeoWallRestrictionChecker $checker;
+
+  /**
+   * Request stack service.
+   */
+  protected RequestStack $requestStack;
 
   public function __construct(GeoWallRestrictionChecker $checker, RequestStack $request_stack) {
     $this->checker = $checker;
@@ -23,14 +30,14 @@ class GeoAccessCacheContext implements CacheContextInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getLabel() {
+  public static function getLabel(): string {
     return t('Geo access');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getContext() {
+  public function getContext(): string {
     $request = $this->requestStack->getCurrentRequest();
     if (!$request) {
       return 'unknown';
@@ -41,7 +48,7 @@ class GeoAccessCacheContext implements CacheContextInterface {
   /**
    * {@inheritdoc}
    */
-  public function getCacheableMetadata() {
+  public function getCacheableMetadata(): CacheableMetadata {
     return new CacheableMetadata();
   }
 }

@@ -2,6 +2,7 @@
 
 namespace Drupal\geowall\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
@@ -12,21 +13,27 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Configure GeoWall settings.
  */
-class GeoWallSettingsForm extends ConfigFormBase {
+final class GeoWallSettingsForm extends ConfigFormBase {
 
   /**
    * Path validator service.
    *
    * @var \Drupal\Core\Path\PathValidatorInterface
    */
-  protected $pathValidator;
+  /**
+   * Path validator service.
+   */
+  protected PathValidatorInterface $pathValidator;
 
   /**
    * Path matcher service.
    *
    * @var \Drupal\Core\Path\PathMatcherInterface
    */
-  protected $pathMatcher;
+  /**
+   * Path matcher service.
+   */
+  protected PathMatcherInterface $pathMatcher;
 
   /**
    * Constructs the settings form.
@@ -40,7 +47,7 @@ class GeoWallSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('config.factory'),
       $container->get('path.validator'),
@@ -49,17 +56,17 @@ class GeoWallSettingsForm extends ConfigFormBase {
   }
 
   /** @inheritdoc */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return ['geowall.settings'];
   }
 
   /** @inheritdoc */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'geowall_settings_form';
   }
 
   /** @inheritdoc */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('geowall.settings');
 
     $form['enable_geowall'] = [
@@ -113,7 +120,7 @@ class GeoWallSettingsForm extends ConfigFormBase {
   }
 
   /** {@inheritdoc} */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
     $redirect = '/' . ltrim($form_state->getValue('redirect_path'), '/');
     if (!$this->pathValidator->isValid($redirect)) {
       $form_state->setErrorByName('redirect_path', $this->t('The redirect path must be a valid internal path.'));
@@ -140,7 +147,7 @@ class GeoWallSettingsForm extends ConfigFormBase {
   }
 
   /** @inheritdoc */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->config('geowall.settings')
       ->set('enable_geowall', $form_state->getValue('enable_geowall'))
       ->set('allowed_countries', array_filter(array_map('trim', explode("\n", $form_state->getValue('allowed_countries')))))
