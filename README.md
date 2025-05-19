@@ -2,6 +2,16 @@
 
 GeoWall restricts access to selected content for visitors outside allowed countries. It relies on the Cloudflare `CF-IPCountry` header and works with Drupal page caching.
 
+## Installation
+
+Install the module with Composer:
+
+```bash
+composer require drupal/geowall
+```
+
+After installing, enable the module through the administration UI or with Drush.
+
 ## Configuration
 
 1. Enable the module and visit `/admin/config/system/geowall`.
